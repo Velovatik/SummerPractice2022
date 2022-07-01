@@ -1,5 +1,4 @@
 import cv2
-import video
 import numpy
 
 def camera_recognition():
@@ -7,7 +6,7 @@ def camera_recognition():
         pass
     
     cv2.namedWindow( "out_window" )
-    cap = video.create_capture(0)
+    cap = cv2.VideoCapture(0)
     
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
