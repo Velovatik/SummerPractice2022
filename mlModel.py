@@ -28,3 +28,40 @@ def get_frame_from_tensor(img):
         agnostic_mode=False
     )
     return img
+
+def get_bbox_from_tensor(img):
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img_tensor = tf.convert_to_tensor(img_rgb)
+    img_tensor = img_tensor[tf.newaxis,...]
+    img_tensor = img_tensor[:,:,:, :3]
+    result = model(img_tensor)
+    result = {key:value.numpy() for key,value in result.items()}
+
+    boxes = result['detection_boxes'][0]
+    scores = result['detection_scores'][0]
+    min_score_thresh = .50
+
+    coordinates = []
+    for i in range(len(boxes)):
+        if scores[i] > min_score_thresh:
+            #class_name = category_id[result['detection_classes'][0][i]]['name']
+            boxes[i][0] = boxes[i][0]*img.shape[0]
+            boxes[i][2] = boxes[i][2]*img.shape[0]
+            boxes[i][1] = boxes[i][1]*img.shape[1]
+            boxes[i][3] = boxes[i][3]*img.shape[1]
+            coordinates.append({
+                "name" : category_id[result['detection_classes'][0][i]]['name'],
+                "boxes" : boxes[i]
+            })
+    
+    return coordinates
+
+def get_points_coordinates(coordinates):
+    points = []
+    for i in range(len(coordinates)):
+        points.append({
+            'name' : coordinates[i]['name'],
+            'point' : [coordinates[i]['boxes'][1]+((coordinates[i]['boxes'][3]-coordinates[i]['boxes'][1]))/2,coordinates[i]['boxes'][0]+((coordinates[i]['boxes'][2]-coordinates[i]['boxes'][0])/2)]
+        })
+
+    return points
