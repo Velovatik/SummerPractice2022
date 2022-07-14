@@ -4,6 +4,8 @@
 #include <gpio/gpio.h>
 #include <stdbool.h>
 
+#include "rapidjson/document.h"
+
 #ifdef __arm__
 #include <bsp/bsp.h>
 #endif
@@ -103,14 +105,14 @@ int main(int argc, const char *argv[])
      * for GPIO pins. It`s required for stdout by UART.
      */
     {
-        BspError rc = BspInit(NULL);
+        BspError rc =  (BspError) BspInit(NULL);
         if (rc != BSP_EOK)
         {
             fprintf(stderr, "Failed to initialize BSP\n");
             return EXIT_FAILURE;
         }
 
-        rc = BspSetConfig("gpio0", "raspberry_pi4b.default");
+        rc = (BspError) BspSetConfig("gpio0", "raspberry_pi4b.default");
         if (rc != BSP_EOK)
         {
             fprintf(stderr, "Failed to set mux configuration for gpio0 module\n");
