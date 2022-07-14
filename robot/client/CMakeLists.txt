@@ -8,7 +8,13 @@ project_header_default ("STRICT_WARNINGS:NO")
 
 nk_build_edl_files (client_edl_files NK_MODULE "client" EDL "${CMAKE_SOURCE_DIR}/resources/edl/Client.edl")
 
-add_executable (Client "src/robot.c")
+
+message(STATUS "foo include dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+
+#${CMAKE_CURRENT_SOURCE_DIR}
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/rapidjson/include)
+
+add_executable (Client "src/robot.cpp")
 add_dependencies (Client client_edl_files)
 target_link_libraries (Client ${gpio_CLIENT_LIB})
 
