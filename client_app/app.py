@@ -7,7 +7,7 @@ import sys
 import cv2
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt, QThread
 import numpy as np
-from mlModel import *
+from client_app.mlModel import *
 
 class VideoThread(QThread):
     change_pixmap_signal = pyqtSignal(np.ndarray)
