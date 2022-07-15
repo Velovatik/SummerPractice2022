@@ -12,5 +12,5 @@
 - [X] NN have 91% chance to recognize objects
 - [X] Client application
 - [X] ML for build trajectories and angles, sending commands by TCP
-- [] TCP on KOS
-- [] Acceptable design
+- [ ] TCP on KOS
+- [ ] Acceptable design
